@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_app/screens/screen.dart';
-import 'custom_appbar.dart';
 
 class BottomNavScreen extends StatefulWidget {
   BottomNavScreen({Key? key}) : super(key: key);
@@ -16,7 +15,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: [

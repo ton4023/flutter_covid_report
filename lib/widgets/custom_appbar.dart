@@ -6,42 +6,22 @@ class CustomAppbar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      actions: [Padding(
+        padding: const EdgeInsets.only(right: 15,),
+        child: IconButton( 
+          icon: Icon(Icons.menu_open,size: 40,),
+          color: Colors.purpleAccent[200],
+          onPressed: ()=>null,),
+      )],
       flexibleSpace: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(40)),
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(60)),
           image: DecorationImage(
-              image: AssetImage('images/doctor-looking.jpg'),
-              fit: BoxFit.cover),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 50.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Covid-19',
-                style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    color: Colors.purple[600],
-                    fontSize: 40),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Report',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.purple[400],
-                    fontSize: 35),
-              ),
-            ],
-          ),
+              image: AssetImage('images/24426.jpg'), fit: BoxFit.cover),
         ),
       ),
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
     );
   }
 
