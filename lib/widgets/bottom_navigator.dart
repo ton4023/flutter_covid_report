@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_covid_app/screens/screen.dart';
+
 
 class BottomNavScreen extends StatefulWidget {
   BottomNavScreen({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class BottomNavScreen extends StatefulWidget {
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _selectedIndex = 0;
-  List<Widget> _screens = [HomeScreen(), SettingScreen()];
+  List<Widget> _screens = [];
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting')
+          BottomNavigationBarItem(icon: Icon(Icons.contact_page), label: 'About')
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],

@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
 
-class CustomAppbar extends StatelessWidget with PreferredSizeWidget {
-  const CustomAppbar({Key? key}) : super(key: key);
+class CustomSliverAppbar extends StatelessWidget {
+  const CustomSliverAppbar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      actions: [Padding(
-        padding: const EdgeInsets.only(right: 15,),
-        child: IconButton( 
-          icon: Icon(Icons.menu_open,size: 40,),
-          color: Colors.purpleAccent[200],
-          onPressed: ()=>null,),
-      )],
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(60)),
-          image: DecorationImage(
-              image: AssetImage('images/24426.jpg'), fit: BoxFit.cover),
-        ),
+    return SliverAppBar(
+      expandedHeight: 200.0,
+      floating: true,
+      pinned: true,
+      snap: true,
+      flexibleSpace: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Image.asset(
+              'images/3698931.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  "COVID-19 in Thailand",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(200);
 }
