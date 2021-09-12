@@ -5,6 +5,7 @@ import 'package:flutter_covid_app/models/covidDay.dart';
 import 'package:flutter_covid_app/models/covidProvince.dart';
 import 'package:flutter_covid_app/repository/covidDay.dart';
 import 'package:flutter_covid_app/widgets/widget.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -26,10 +27,36 @@ class _HomeScreenState extends State<HomeScreen> {
           CustomSliverAppbar(),
           SliverList(
               delegate: SliverChildListDelegate([
-            Container(
-              child: showDaily(),
+            ClipPath(
+              clipper: WaveClipperOne(),
+              child: Container(
+                alignment: Alignment.center,
+                height: 120,
+                color: Colors.deepPurple,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      'รายงานสถานการณ์ COVID-19 ประจำวัน',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 12,
             ),
             Container(
+              padding: EdgeInsets.all(8),
+              child: showDaily(),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            
+            Container(
+              padding: EdgeInsets.all(8),
               child: showProvince(),
             )
           ]))
@@ -64,50 +91,64 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Column detailDaily(double size, CovidDay covidDay) {
+  detailDaily(double size, CovidDay covidDay) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('ยอดผู้ติดเชื้อ'),
-        cardDetail(size, covidDay),
-        cardDetail2(size, covidDay)
-      ],
-    );
-  }
-
-  Row cardDetail(double size, CovidDay covidDay) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          width: size / 2 * .9,
-          child: CustomCard(name: "newCase", quantity: covidDay.newCase),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: size / 2 * .9,
+              child: CustomCard(
+                name: "จำนวนผู้ติดเชื้อรายใหม่",
+                quantity: covidDay.newCase,
+                color: Colors.amber[600],
+              ),
+            ),
+            Container(
+              width: size / 2 * .9,
+              child: CustomCard(
+                name: "จำนวนผู้เสียชีวิตรายใหม่",
+                quantity: covidDay.newDeath,
+                color: Colors.red[600],
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: size / 3 * .9,
+              child: CustomCard(
+                name: "ผู้ติดเชื้อสะสม",
+                quantity: covidDay.totalCase,
+                color: Colors.green[600],
+              ),
+            ),
+            Container(
+              width: size / 3 * .9,
+              child: CustomCard(
+                name: "รักษาหาย",
+                quantity: covidDay.totalRecovered,
+                color: Colors.blue[600],
+              ),
+            ),
+            Container(
+              width: size / 3 * .9,
+              child: CustomCard(
+                name: "ผู้เสียชีวิตสะสม",
+                quantity: covidDay.totalDeath,
+                color: Colors.purple[600],
+              ),
+            ),
+          ],
         ),
         Container(
-          width: size / 2 * .9,
-          child: CustomCard(name: "newDeath", quantity: covidDay.newDeath),
-        ),
-      ],
-    );
-  }
-
-  Row cardDetail2(double size, CovidDay covidDay) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          width: size / 3 * .9,
-          child: CustomCard(name: "Total Case", quantity: covidDay.totalCase),
-        ),
-        Container(
-          width: size / 3 * .9,
-          child: CustomCard(
-              name: "Total Recovered", quantity: covidDay.totalRecovered),
-        ),
-        Container(
-          width: size / 3 * .9,
-          child: CustomCard(name: "Total Death", quantity: covidDay.totalDeath),
-        ),
+          alignment: Alignment.bottomRight,
+          child: Text('อัพเดตล่าสุด ' + covidDay.updateDate.toString()),
+        )
       ],
     );
   }
@@ -128,7 +169,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('แยกรายจังหวัด'),
+                    Text(
+                      'แยกตามรายจังหวัด',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                    ),
                     ProvinceDropdown(
                       province:
                           _province ?? covidProvince[0].province.toString(),
@@ -169,14 +214,18 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               width: size / 2 * 0.9,
               child: CustomCard(
-                  name: "newCase",
-                  quantity: covidProvince[_provinceIndex].newCase),
+                name: "จำนวนผู้ติดเชื้อรายใหม่",
+                quantity: covidProvince[_provinceIndex].newCase,
+                color: Colors.amber[600],
+              ),
             ),
             Container(
               width: size / 2 * 0.9,
               child: CustomCard(
-                  name: "newDeath",
-                  quantity: covidProvince[_provinceIndex].newDeath),
+                name: "จำนวนผู้เสียชีวิตรายใหม่",
+                quantity: covidProvince[_provinceIndex].newDeath,
+                color: Colors.red[600],
+              ),
             )
           ],
         ),
@@ -186,23 +235,33 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               width: size / 3 * 0.9,
               child: CustomCard(
-                  name: "Total Case",
-                  quantity: covidProvince[_provinceIndex].totalCase),
+                  name: "ผู้ติดเชื้อสะสม",
+                  quantity: covidProvince[_provinceIndex].totalCase,
+                  color: Colors.green[600]),
             ),
             Container(
               width: size / 3 * 0.9,
               child: CustomCard(
-                  name: "Total Recovered",
-                  quantity: '-'),
+                name: "รักษาหาย",
+                quantity: '-',
+                color: Colors.blue[600],
+              ),
             ),
             Container(
               width: size / 3 * 0.9,
               child: CustomCard(
-                  name: "Total Death",
-                  quantity: covidProvince[_provinceIndex].totalDeath),
+                name: "ผู้เสียชีวิตสะสม",
+                quantity: covidProvince[_provinceIndex].totalDeath,
+                color: Colors.purple[600],
+              ),
             )
           ],
         ),
+        Container(
+          alignment: Alignment.bottomRight,
+          child: Text('อัพเดตล่าสุด ' +
+              covidProvince[_provinceIndex].updateDate.toString()),
+        )
       ],
     );
   }

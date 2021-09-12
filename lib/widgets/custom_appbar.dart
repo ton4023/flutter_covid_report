@@ -26,8 +26,9 @@ class CustomSliverAppbar extends StatelessWidget {
                 child: Text(
                   "COVID-19 in Thailand",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
+                    color: Colors.blue[900],
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w900,
                   ),
                   textAlign: TextAlign.center,
                 ),
