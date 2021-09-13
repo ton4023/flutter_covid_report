@@ -32,13 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 alignment: Alignment.center,
                 height: 120,
-                color: Colors.deepPurple,
+                color: Colors.lightBlue[50],
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      'รายงานสถานการณ์ COVID-19 ประจำวัน',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                      'รายงานสถานการณ์ COVID-19',
+                      style:
+                          TextStyle(
+                            fontSize: 22, 
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue[900]),
                     ),
                   ),
                 ),
@@ -54,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 10.0,
             ),
-            
             Container(
               padding: EdgeInsets.all(8),
               child: showProvince(),
@@ -84,8 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
           final size = MediaQuery.of(context).size.width;
           return detailDaily(size, covidDay);
         }
-        return Container(
-          child: Text('no daily data'),
+        return Center(
+          child: Container(
+            child: CircularProgressIndicator(),
+          ),
         );
       }),
     );
@@ -159,7 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
         covidRepository: _covidRepository,
       )..getCovidProvince(),
       child: BlocBuilder<CovidCubit, CovidState>(builder: (context, state) {
-        if (state is CovidProvinceLoaded) {
+        if (state is CovidLoading) {
+          Container(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is CovidProvinceLoaded) {
           final covidProvince = state.covidProvince;
           final size = MediaQuery.of(context).size.width;
           return Column(
@@ -198,9 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         }
-        return Container(
-          child: Text('no province data'),
-        );
+        return Container();
       }),
     );
   }
